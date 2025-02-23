@@ -1,0 +1,29 @@
+name: 'Prose Linter'
+description: 'Lint Markdown files with proselint or write-good'
+inputs:
+  linter:
+    description: 'Choose the linter tool (proselint or write-good)'
+    required: true
+    default: 'proselint'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Dependencies
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y python3 python3-pip
+        if [ "${{ inputs.linter }}" = "proselint" ]; then
+          pip3 install proselint
+        else
+          npm install -g write-good
+        fi
+    - name: Lint Markdown Files
+      shell: bash
+      run: |
+        find . -name "*.md" | while read file; do
+          if [ "${{ inputs.linter }}" = "proselint" ]; then
+            proselint "$file" || echo "::error file=$file::ProseLint found issues"
+          else
+            write-good "$file" || echo "::error file=$file::Write-Good found issues"
+          fi
+        done
