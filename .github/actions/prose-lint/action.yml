@@ -22,8 +22,8 @@ runs:
       run: |
         find . -name "*.md" | while read file; do
           if [ "${{ inputs.linter }}" = "proselint" ]; then
-            proselint "$file" || echo "::error file=$file::ProseLint found issues"
+            proselint "$file" || (echo "::error file=$file::ProseLint found issues" && exit 1)
           else
-            write-good "$file" || echo "::error file=$file::Write-Good found issues"
+            write-good "$file" || (echo "::error file=$file::Write-Good found issues" && exit 1)
           fi
         done
