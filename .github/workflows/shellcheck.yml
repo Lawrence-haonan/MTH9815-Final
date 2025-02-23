@@ -16,3 +16,6 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
             severity: warning
+            check_files: |
+                **/*.sh
+                *.sh
