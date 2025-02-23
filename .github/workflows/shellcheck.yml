@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - master
 
 name: "Trigger: Push action"
 permissions: {}
@@ -13,7 +13,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@2.0.0  # 使用稳定版本
-        with:
-          severity: error  # 检查所有错误级别
+        uses: ludeeus/action-shellcheck@master
 
